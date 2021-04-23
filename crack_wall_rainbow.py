@@ -17,10 +17,11 @@ def create(seed_in: int, project=True):
     bm.to_mesh(ob.data) # Writes changed data to mesh -- if this isn't called nothing is saved
 
     # Scene setup
-    mat = bpy.data.materials.get("Bricks") # Choices -- Concrete, Deterioration, Bricks
+    mat = bpy.data.materials.get("Neutral") # Choices -- Concrete, Deterioration, Bricks
+    bpy.data.materials["Neutral"].node_tree.nodes["Principled BSDF"].inputs[0].default_value = (random.random(), random.random(), random.random(), 0.5)
     ob.data.materials.append(mat)
     bpy.ops.object.light_add(type='SUN', radius=1, location=(-4, 4, 4), rotation=(-1, 0, 0.7))
-    bpy.context.object.data.energy = 5
+    bpy.context.object.data.energy = 3
     bpy.ops.object.camera_add(enter_editmode=False, align='CURSOR', location=(0, 4.88, 0), rotation=(1.57, 0, 3.14))
     bpy.context.object.data.lens = 23
     bpy.context.scene.camera = bpy.data.objects["Camera"]
@@ -32,7 +33,7 @@ def create(seed_in: int, project=True):
             v.co.y += 0.15
         damageutils.project_crack(bpy.data.objects['Camera'], used_final, '../batch_output/' + str(render_id) + '.csv')
 
-for render_id in range(1, 2):
+for render_id in range(1, 1000 + 1):
     damageutils.set_resolution(128, 128)
     seed = random.randint(0, 10000)
     random.seed(seed)

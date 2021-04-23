@@ -1,6 +1,6 @@
 from imageutils import write_mask
 
-AMOUNT = 25
+AMOUNT = 1000
 RESOLUTION = 128
 SPLASH = False
 
